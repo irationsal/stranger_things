@@ -47,9 +47,9 @@ const App = () => {
             {token ? 
             <>
               <Link to='/profile'>Profile</Link>
-              <Link to='/posts'> Posts</Link>
             </> : ""}
           </Route>
+          <Link to='/posts'> Posts </Link>
           {!token ? <Link to='/login'>Login</Link> : ""}
           <Route path="/login">
             <AccountForm type={'login'} setToken={setToken} setUser={setUser} />
@@ -61,7 +61,7 @@ const App = () => {
             <Profile user={user}/>
           </Route>
           <Route path="/posts">
-            {token ? <Posts posts={posts} setPosts={setPosts} token={token} setUser={setUser}/> : <p>Not Logged In</p>}
+            {<Posts posts={posts} setPosts={setPosts} token={token} setUser={setUser}/>}
           </Route>
           </div>)
 }

@@ -22,7 +22,7 @@ const Posts = (props) => {
 
     return (
         <>
-            <PostAdd posts={posts} setPosts={setPosts} token={token}/>
+            {token ? <PostAdd posts={posts} setPosts={setPosts} token={token}/> : ""}
             {
                 posts.map((post) => {
                     return (
@@ -30,7 +30,7 @@ const Posts = (props) => {
                             <h3>{post.title}</h3>
                             <span>from: {post.author.username}</span>
                             <p>{post.price}</p>
-                            <SendMessage post={post} token={token} setUser={setUser}/>
+                            {token ? <SendMessage post={post} token={token} setUser={setUser}/> : ""}
                             {post.isAuthor ? <button onClick={() => {
                                 handleDelete(post)
                             }}>DELETE</button> : ""}
