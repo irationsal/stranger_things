@@ -12,7 +12,8 @@ import {
 import {
   AccountForm,
   Posts,
-  Profile
+  Profile,
+  FeaturedPost
 } from './components'
 
 import {
@@ -24,6 +25,7 @@ const App = () => {
   const [user, setUser] = useState({})
   const [token, setToken] = useState('')
   const [posts, setPosts] = useState([])
+  const [featuredPost, setFeaturedPost] = useState({})
 
   useEffect(async () => {
       try {
@@ -50,6 +52,7 @@ const App = () => {
             </> : ""}
           </Route>
           <Link to='/posts'> Posts </Link>
+          <Link to={`/featured=${featuredPost._id}`}> Featured </Link>
           {!token ? <Link to='/login'>Login</Link> : ""}
           <Route path="/login">
             <AccountForm type={'login'} setToken={setToken} setUser={setUser} />
@@ -61,7 +64,10 @@ const App = () => {
             <Profile user={user}/>
           </Route>
           <Route path="/posts">
-            {<Posts posts={posts} setPosts={setPosts} token={token} setUser={setUser}/>}
+            {<Posts posts={posts} setPosts={setPosts} token={token} setUser={setUser} setFeaturedPost={setFeaturedPost}/>}
+          </Route>
+          <Route path={`/featured=${featuredPost._id}`}>
+              {featuredPost ? <FeaturedPost featuredPost={featuredPost}/> : ""}
           </Route>
           </div>)
 }
