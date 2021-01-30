@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 import {
     BASE_URL
@@ -34,6 +34,7 @@ const AccountForm = (props) => {
         const token = data.token
         if(token) {
             setToken(token)
+            localStorage.setItem('stranger_things_token', JSON.stringify(token))
             const response = await fetch(BASE_URL + `/users/me`,{
                 method: 'GET',
                 headers: {
@@ -41,6 +42,7 @@ const AccountForm = (props) => {
                 }
             })
             const {data} = await response.json()
+            localStorage.setItem('stranger_things_user', JSON.stringify(data))
             setUser(data)
         }
         setUsername('')

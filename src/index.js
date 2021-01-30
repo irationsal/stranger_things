@@ -17,24 +17,41 @@ import {
 } from './components'
 
 import {
+  BASE_URL,
   fetchPosts
 } from './api'
 
 const App = () => {
 
-  const [user, setUser] = useState({})
-  const [token, setToken] = useState('')
+  const getTokenFromLocal = () => {
+
+    const token = JSON.parse(localStorage.getItem('stranger_things_token'))
+
+    if(!token)
+      return ''
+
+    return token
+  }
+
+  const getUserDataFromLocal = () => {
+    const userData = JSON.parse(localStorage.getItem('stranger_things_user'))
+    if(!userData)
+      return {}
+    
+    return userData
+  }
+
+  const [user, setUser] = useState(getUserDataFromLocal())
+  const [token, setToken] = useState(getTokenFromLocal())
   const [posts, setPosts] = useState([])
   const [featuredPost, setFeaturedPost] = useState({})
 
   useEffect(async () => {
-      try {
-          const {data} = await fetchPosts(token)
-          setPosts(data.posts)
-      } catch(error) {
-          console.log(error)
-      }
+    const {data} = await fetchPosts(token)
+    setPosts(data.posts)
   }, [token])
+
+  console.log(user)
 
   return (<div className="app">
           <header>
@@ -42,6 +59,8 @@ const App = () => {
               {user.username && <div>Hello {user.username}</div>}
               {token ? <Link to="/" onClick={() => {
                 setToken("")
+                localStorage.removeItem('stranger_things_token')
+                localStorage.removeItem('stranger_things_user')
                 setUser({})
                 }}>Logout</Link> : ""}
           </header>
@@ -52,7 +71,6 @@ const App = () => {
             </> : ""}
           </Route>
           <Link to='/posts'> Posts </Link>
-          <Link to={`/featured=${featuredPost._id}`}> Featured </Link>
           {!token ? <Link to='/login'>Login</Link> : ""}
           <Route path="/login">
             <AccountForm type={'login'} setToken={setToken} setUser={setUser} />
@@ -67,7 +85,7 @@ const App = () => {
             {<Posts posts={posts} setPosts={setPosts} token={token} setUser={setUser} setFeaturedPost={setFeaturedPost}/>}
           </Route>
           <Route path={`/featured=${featuredPost._id}`}>
-              {featuredPost ? <FeaturedPost featuredPost={featuredPost}/> : ""}
+              <FeaturedPost posts={posts} id={featuredPost._id}/>
           </Route>
           </div>)
 }

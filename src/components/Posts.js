@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { BASE_URL, fetchPosts } from '../api'
 
 import PostAdd from './PostAdd'
@@ -21,26 +21,18 @@ const Posts = (props) => {
         setPosts(data.posts)
     }
 
-    /*function goToFeatured(postID) {
-        let history = useHistory()
-        console.log(history)
-        history.push(`featured=${postID}`)
-    }*/
-
     return (
         <>
             {token ? <PostAdd posts={posts} setPosts={setPosts} token={token}/> : ""}
             {
                 posts.map((post) => {
                     return (
-                            <div key={post._id} className="post" onClick={() =>  {
-                                    console.log("post div space setting",post)
-                                    setFeaturedPost(post)
-                                    //goToFeatured(post._id)             
-                                }}>
-                                    <h3>{post.title}</h3>
-                                    <span>from: {post.author.username}</span>
-                                    <p>{post.price}</p>
+                            <div key={post._id} className="post">
+                                    <Link to={`featured=${post._id}`} onClick={() => {setFeaturedPost(post)}}>
+                                        <h3>{post.title}</h3>
+                                        <span>from: {post.author.username}</span>
+                                        <p>{post.price}</p>
+                                    </Link>
                                     {token && !post.isAuthor ? <SendMessage post={post} token={token} setUser={setUser}/> : ""}
                                     {post.isAuthor ? <button onClick={() => {
                                         handleDelete(post)
