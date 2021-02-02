@@ -1,23 +1,22 @@
 import React, {useState} from 'react'
+import {BASE_URL} from '../api'
 
-import {
-    BASE_URL
-} from '../api'
 
-const PostAdd = (props) => {
+const EditPost = (props) => {
 
-    const {posts, setPosts, token} = props
+    const {posts, setPosts, token, id} = props
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [price, setPrice] = useState("")
     const [willDeliver, setWillDelivery] = useState(false)
     const [location, setLocation] = useState("")
+    const [showEdit, setShowEdit] = useState(false)
 
     const handleSubmit = async (ev) => {
         ev.preventDefault()
-        const response = await fetch(BASE_URL + `/posts`, {
-            method: "POST",
+        const response = await fetch(BASE_URL + `/posts/${id}`, {
+            method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -40,9 +39,11 @@ const PostAdd = (props) => {
         setWillDelivery('')
         setLocation('')
     }
-    return (<div className="add-post">
-            <h3>Add Post</h3>
-            <form onSubmit={handleSubmit}>
+    return (<div className='edit'>
+            <button onClick={() => {
+                setShowEdit(!showEdit)
+            }}>{showEdit ? "Stop Edit" : "Edit"}</button>
+            {showEdit ? <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="title" value={title} onChange={(ev) => setTitle(ev.target.value)}></input>
                 <input type="text" placeholder="description" value={description} onChange={(ev) => setDescription(ev.target.value)}></input>
                 <input type="text" placeholder="price" value={price} onChange={(ev) => setPrice(ev.target.value)}></input>
@@ -52,10 +53,11 @@ const PostAdd = (props) => {
                 }}></input>
                 </label>
                 <input type="text" placeholder="location" value={location} onChange={(ev) => setLocation(ev.target.value)}></input>
-                <button>Add Post</button>
-            </form>
+                <button>Submit Edit</button>
+            </form> : ""}
         </div>
     )
+
 }
 
-export default PostAdd
+export default EditPost

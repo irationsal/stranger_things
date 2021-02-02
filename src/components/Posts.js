@@ -2,12 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { BASE_URL, fetchPosts } from '../api'
 
-import PostAdd from './PostAdd'
+import SearchPosts from './SearchPosts'
 import SendMessage from './SendMessage'
+import EditPost from './EditPost'
 
 const Posts = (props) => {
 
-    const {posts, setPosts, token, setUser, setFeaturedPost} = props
+    const {posts, setPosts, token, setUser, setFeaturedPost, id} = props
 
     const handleDelete = async (post) => {
         const response = await fetch(BASE_URL + `/posts/${post._id}`, {
@@ -21,29 +22,32 @@ const Posts = (props) => {
         setPosts(data.posts)
     }
 
-    return (
-        <>
-            {token ? <PostAdd posts={posts} setPosts={setPosts} token={token}/> : ""}
+    return (<>
+        <h3>Posts</h3>
+        <div className="postlist">
             {
                 posts.map((post) => {
                     return (
-                            <div key={post._id} className="post">
-                                    <Link to={`featured=${post._id}`} onClick={() => {setFeaturedPost(post)}}>
-                                        <h3>{post.title}</h3>
-                                        <span>from: {post.author.username}</span>
-                                        <p>{post.price}</p>
-                                    </Link>
-                                    {token && !post.isAuthor ? <SendMessage post={post} token={token} setUser={setUser}/> : ""}
-                                    {post.isAuthor ? <button onClick={() => {
+                            <div key={post._id} className="post-container">
+                                    <div className="post" style={{backgroundColor: `${post.isAuthor ? "gold" : ''}`}}>
+                                        <Link to={`featured=${post._id}`} onClick={() => {setFeaturedPost(post)}}>
+                                            <h3>{post.title}</h3>
+                                            <span>from: {post.author.username}</span>
+                                            <p>{post.price}</p>
+                                        </Link>
+                                    </div>
+                                    {token && !post.isAuthor && (post.author !== id) ? <SendMessage post={post} token={token} setUser={setUser}/> : ""}
+                                    {post.isAuthor || post.author === id ? <button onClick={() => {
                                         handleDelete(post)
                                     }}>DELETE</button> : ""}
+                                    {post.isAuthor || post.author === id ? <EditPost posts={setPosts} token={token} setPosts={setPosts} id={post._id}/> : ""}
                             </div>
                         
                     )
                 })
             }
-        </>
-    )
+        </div>
+    </>)
 }
 
 export default Posts
