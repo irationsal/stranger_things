@@ -1,16 +1,20 @@
 import React, {useState} from 'react'
-import {BASE_URL} from '../api'
+import {BASE_URL, fetchPosts} from '../api'
 
 
 const EditPost = (props) => {
 
     const {posts, setPosts, token, id} = props
+    const editPost = posts.find((post) => id === post._id)
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [price, setPrice] = useState("")
-    const [willDeliver, setWillDelivery] = useState(false)
-    const [location, setLocation] = useState("")
+    const {title, description, price, willDeliver, 
+        location} = editPost
+
+    const [editTitle, setTitle] = useState(title)
+    const [editDescription, setDescription] = useState(description)
+    const [editPrice, setPrice] = useState(price)
+    const [editWillDeliver, setWillDelivery] = useState(willDeliver)
+    const [editLocation, setLocation] = useState(location)
     const [showEdit, setShowEdit] = useState(false)
 
     const handleSubmit = async (ev) => {
@@ -23,36 +27,42 @@ const EditPost = (props) => {
             },
             body: JSON.stringify({
                 post: {
-                    title: title,
-                    description: description,
-                    price: price,
-                    willDeliver: willDeliver,
-                    location: location
+                    title: editTitle,
+                    description: editDescription,
+                    price: editPrice,
+                    willDeliver: editWillDeliver,
+                    location: editLocation
                 }
             })
         })
-        const {data} = await response.json()
-        setPosts([data.post, ...posts])
-        setTitle('')
-        setDescription('')
-        setPrice('')
-        setWillDelivery('')
-        setLocation('')
+        const {data: {posts}} = await fetchPosts(token)
+        
+        setPosts(posts)
+        const editPost = posts.find((post) => id === post._id)
+
+        const {title, description, price, willDeliver, 
+        location} = editPost
+        setTitle(title)
+        setDescription(description)
+        setPrice(price)
+        setWillDelivery(willDeliver)
+        setLocation(location)
+        setShowEdit(false)
     }
     return (<div className='edit'>
             <button onClick={() => {
                 setShowEdit(!showEdit)
             }}>{showEdit ? "Stop Edit" : "Edit"}</button>
             {showEdit ? <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="title" value={title} onChange={(ev) => setTitle(ev.target.value)}></input>
-                <input type="text" placeholder="description" value={description} onChange={(ev) => setDescription(ev.target.value)}></input>
-                <input type="text" placeholder="price" value={price} onChange={(ev) => setPrice(ev.target.value)}></input>
+                <input type="text" placeholder="title" value={editTitle} onChange={(ev) => setTitle(ev.target.value)}></input>
+                <textarea type="text" placeholder="description" value={editDescription} onChange={(ev) => setDescription(ev.target.value)}></textarea>
+                <input type="text" placeholder="price" value={editPrice} onChange={(ev) => setPrice(ev.target.value)}></input>
                 <label>Will Deliver?
-                <input type="checkbox" placeholder="willDeliver" value={willDeliver} onChange={(ev) => {
-                    setWillDelivery(!willDeliver)
+                <input type="checkbox" placeholder="willDeliver" checked={editWillDeliver} onChange={(ev) => {
+                    setWillDelivery(!editWillDeliver)
                 }}></input>
                 </label>
-                <input type="text" placeholder="location" value={location} onChange={(ev) => setLocation(ev.target.value)}></input>
+                <input type="text" placeholder="location" value={editLocation} onChange={(ev) => setLocation(ev.target.value)}></input>
                 <button>Submit Edit</button>
             </form> : ""}
         </div>

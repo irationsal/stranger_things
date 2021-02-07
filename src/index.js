@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  NavLink
 } from 'react-router-dom';
 
 import {
@@ -55,15 +54,9 @@ const App = () => {
           <header>
               <h1>Stranger Things</h1>
           </header>
-          {user.username && <div>Hello <Link to='/profile'>{user.username}</Link></div>}
-              {token ? <Link to="/" onClick={() => {
-                setToken("")
-                localStorage.removeItem('stranger_things_token')
-                localStorage.removeItem('stranger_things_user')
-                setUser({})
-                }}>Logout</Link> : ""}
+          {token && <div className="logged-in">Hello, <Link to='/profile'><b>{user.username}</b></Link></div>}
           <Route path="/">
-            <NavBar token={token}/>
+            <NavBar token={token} setToken={setToken} setUser={setUser}/>
           </Route>
           <Route path="/login">
             <AccountForm type={'login'} setToken={setToken} setUser={setUser} />
@@ -72,14 +65,14 @@ const App = () => {
             <AccountForm type={'register'} setToken={setToken} setUser={setUser} />
           </Route>
           <Route path="/profile">
-            <Profile user={user} token={token} setFeaturedPost={setFeaturedPost}/>
+            <Profile user={user} token={token} setFeaturedPost={setFeaturedPost} setUser={setUser}/>
           </Route>
           <Route path="/posts">
             {token ? <PostAdd posts={posts} setPosts={setPosts} token={token}/> : ""}
             <SearchPosts posts={posts} setPosts={setPosts} token={token} setUser={setUser} setFeaturedPost={setFeaturedPost}/>
           </Route>
-          <Route path={`/featured=${featuredPost._id}`}>
-              <FeaturedPost posts={posts} id={featuredPost._id} token={token} setUser={setUser}/>
+          <Route path={`/featured/:id`}>
+              <FeaturedPost posts={posts} id={featuredPost._id} token={token} setUser={setUser} setPosts={setPosts}/>
           </Route>
           </>)
 }

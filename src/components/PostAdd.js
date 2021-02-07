@@ -44,10 +44,10 @@ const PostAdd = (props) => {
             <h3>Add Post</h3>
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="title" value={title} onChange={(ev) => setTitle(ev.target.value)}></input>
-                <input type="text" placeholder="description" value={description} onChange={(ev) => setDescription(ev.target.value)}></input>
+                <textarea type="text" placeholder="description" value={description} onChange={(ev) => setDescription(ev.target.value)}></textarea>
                 <input type="text" placeholder="price" value={price} onChange={(ev) => setPrice(ev.target.value)}></input>
                 <label>Will Deliver?
-                <input type="checkbox" placeholder="willDeliver" value={willDeliver} onChange={(ev) => {
+                <input type="checkbox" placeholder="willDeliver" value={willDeliver} onChange={() => {
                     setWillDelivery(!willDeliver)
                 }}></input>
                 </label>

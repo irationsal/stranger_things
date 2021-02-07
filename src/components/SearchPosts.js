@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Posts from './Posts'
 
 const SearchPosts = (props) => {
@@ -15,13 +15,14 @@ const SearchPosts = (props) => {
     })
     const postsToDisplay = searchTerm.length ? filtered : posts
 
-    return (
-    <>  
-        <h3>Search Posts</h3>
-        <input type='text' placeholder='search' value={searchTerm} onChange={async (ev) => {
-            setSearchTerm(ev.target.value)
-        }}>
-        </input>
+    return (<>
+        <div className="search">  
+            <h3>Search Posts</h3>
+            <input type='text' placeholder='search' value={searchTerm} onChange={(ev) => {
+                setSearchTerm(ev.target.value)
+            }}>
+            </input>
+        </div>
         <Posts posts={postsToDisplay} setPosts={setPosts} token={token} setUser={setUser} setFeaturedPost={setFeaturedPost}/>
     </>)
 }

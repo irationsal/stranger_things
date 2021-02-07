@@ -1,16 +1,28 @@
+import { useEffect } from "react"
+import {useParams} from 'react-router-dom';
+import { fetchPosts } from "../api"
 import SendMessage from "./SendMessage"
 
 
 const FeaturedPost = (props) => {
 
-    const {posts, id, token, setUser} = props
+    const {id} = useParams()
+    const {posts, token, setUser, setPosts} = props
+
+    useEffect(async () => {
+        const {data: {posts}} = await fetchPosts(token)
+        setPosts(posts)
+    }, [id])
 
     if(!posts)
         return <div className="featured">Nada</div>
 
-    const [featuredPost] = posts.filter((post => {
+    const featuredPost = posts.find((post => {
         return post._id === id
     }))
+
+    if(!featuredPost)
+        return <div className="featured">Nada</div>
     
     const {title, description, willDeliver, price, location, createdAt, updatedAt, messages, author: {username}, isAuthor} = featuredPost
 
@@ -26,7 +38,7 @@ const FeaturedPost = (props) => {
             <span>Author: {username}</span>
             <p>Location: {location}</p>
             <label>Will Deliver?
-                <input readOnly type="checkbox" value={willDeliver}></input>
+                <input readOnly type="checkbox" checked={willDeliver}></input>
             </label>
             <p>Created At: {createdAt}</p>
             {
@@ -37,7 +49,7 @@ const FeaturedPost = (props) => {
                 <>
                 <h3>Messages: </h3>
                     {messages.map((message) => {
-                        return <div>
+                        return <div className="message">
                             <h4>{message.post.title}</h4>
                             <p>{message.content}</p>
                             <span>from: {message.fromUser.username}</span>
@@ -45,7 +57,6 @@ const FeaturedPost = (props) => {
                     })}
                 </> : ""
             }
-
        </div>
     )
 }

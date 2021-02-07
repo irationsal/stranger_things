@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 
 import {
     BASE_URL
 } from '../api'
 
 const AccountForm = (props) => {
+
+    const history = useHistory()
 
     const {setToken, setUser, type} = props
 
@@ -47,9 +49,10 @@ const AccountForm = (props) => {
         }
         setUsername('')
         setPassword('')
+        history.push('/posts')
     }
 
-    return (<>
+    return (<div className="register">
             <h2>{title}</h2>
             <form onSubmit={handleSumbit}>
                 <input type="text" value={username} placeholder="username" onChange={(ev) => {
@@ -61,7 +64,7 @@ const AccountForm = (props) => {
                 <button>{title}</button>
                 <Link to={`/${switchType}`}>{switchTitle}</Link>
             </form>
-        </>)
+        </div>)
 }
 
 export default AccountForm
