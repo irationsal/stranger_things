@@ -49,7 +49,7 @@ const Posts = (props) => {
                                             handleDelete(post)
                                         }}>CONFIRM DELETE</button>
                                     </> : ""} 
-                                    {post.isAuthor || post.author === id ? <EditPost posts={posts} token={token} setPosts={setPosts} id={post._id}/> : ""}
+                                    {post.isAuthor || post.author === id ? <EditPost posts={posts} token={token} setPosts={setPosts} id={post._id} setUser={setUser}/> : ""}
                             </div>
                         
                     )

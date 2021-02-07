@@ -65,7 +65,7 @@ const App = () => {
             <AccountForm type={'register'} setToken={setToken} setUser={setUser} />
           </Route>
           <Route path="/profile">
-            <Profile user={user} token={token} setFeaturedPost={setFeaturedPost} setUser={setUser}/>
+            <Profile user={user} token={token} setFeaturedPost={setFeaturedPost} setUser={setUser} setPosts={setPosts}/>
           </Route>
           <Route path="/posts">
             {token ? <PostAdd posts={posts} setPosts={setPosts} token={token}/> : ""}

@@ -3,9 +3,9 @@
 }
 
 :root {
-    --background: #264653;
-    --boxes: #2A9D8F;
-    --boxestwo: #046172;
+    --background: #4e94af;
+    --boxes: #1a645c;
+    --boxestwo: #057f94;
     --text: #E9C46A;
     --accents: #f5b078;
     --accentstwo: #f89880;
@@ -17,7 +17,7 @@
 header {
     background-color: var(--boxes);
     color: var(--text);
-    text-shadow: 2px 2px var(--accentstwo);
+    text-shadow: 2px 2px grey;
     border-radius: 5px;
 }
 #app {
@@ -40,6 +40,11 @@ header {
     background-color: var(--boxestwo);
     margin-top: 2rem;
     border-radius: 5px;
+}
+
+.post-section > h3 {
+    display: flex;
+    justify-content: center;
 }
 
 .postlist {
@@ -157,6 +162,7 @@ a > p {
     display: flex;
     justify-content: space-evenly;
     background-color: var(--boxes);
+    padding: 10px;
 }
 
 .nav-bar > a {
@@ -176,12 +182,19 @@ a > p {
     margin-top: 2rem;
     color: var(--text);
     border-radius: 5px;
+    padding-left: 2rem;
+    padding-bottom: 10px;
 }
 
 .search {
     background-color: var(--boxes);
     margin-top: 2rem;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
 }
 
 .logged-in {
@@ -235,4 +248,12 @@ a > p {
 form > input {
     display: flex;
     justify-content: center;
+}
+
+input {
+    padding: 8px 12px;
+}
+
+button {
+    cursor: pointer;
 }

@@ -3,7 +3,7 @@ import Posts from "./Posts"
 import { BASE_URL } from '../api'
 
 const Profile = (props) => {
-    const {user, token, setFeaturedPost, setUser} = props
+    const {user, token, setFeaturedPost, setUser, setPosts} = props
 
     if(!token)
         return (
@@ -35,7 +35,7 @@ const Profile = (props) => {
         <div className="profile">
             <h2>Profile</h2>
             <div className="user-posts">
-                <Posts posts={displayedPosts} token={token} setFeaturedPost={setFeaturedPost} userPosts={true} id={user._id} name={user.username} />
+                <Posts posts={displayedPosts} token={token} setFeaturedPost={setFeaturedPost} userPosts={true} id={user._id} name={user.username} setPosts={setPosts} setUser={setUser} />
             </div>
             <h2>Messages: ({messages.length})</h2>
             <div className="user-messages">

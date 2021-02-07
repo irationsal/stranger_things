@@ -4,7 +4,7 @@ import {BASE_URL, fetchPosts} from '../api'
 
 const EditPost = (props) => {
 
-    const {posts, setPosts, token, id} = props
+    const {posts, setPosts, token, id, setUser} = props
     const editPost = posts.find((post) => id === post._id)
 
     const {title, description, price, willDeliver, 
@@ -39,6 +39,15 @@ const EditPost = (props) => {
         
         setPosts(posts)
         const editPost = posts.find((post) => id === post._id)
+
+        const updateUser = await fetch(BASE_URL + `/users/me`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        const {data} = await updateUser.json()
+        setUser(data)
 
         const {title, description, price, willDeliver, 
         location} = editPost
