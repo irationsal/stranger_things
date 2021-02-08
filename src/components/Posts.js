@@ -19,8 +19,16 @@ const Posts = (props) => {
                 'Authorization': `Bearer ${token}`
             }
         })
-        const {data} = await fetchPosts(token)
+        let {data} = await fetchPosts(token)
         setPosts(data.posts)
+        const updateUser = await fetch(BASE_URL + `/users/me`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        data = await updateUser.json()
+        setUser(data.data)
     }
 
     return (<div className="post-section">

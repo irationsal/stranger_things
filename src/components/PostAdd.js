@@ -14,8 +14,13 @@ const PostAdd = (props) => {
     const [willDeliver, setWillDelivery] = useState(false)
     const [location, setLocation] = useState("")
 
+    const validPost = title.length > 0 && description.length > 0 && price.length > 0
+
     const handleSubmit = async (ev) => {
         ev.preventDefault()
+        if(!validPost) {
+           return window.alert("You must fill out Title, description, and price to submit a post.")
+        }
         const response = await fetch(BASE_URL + `/posts`, {
             method: "POST",
             headers: {
@@ -37,7 +42,7 @@ const PostAdd = (props) => {
         setTitle('')
         setDescription('')
         setPrice('')
-        setWillDelivery('')
+        setWillDelivery(false)
         setLocation('')
     }
     return (<div className="add-post">
