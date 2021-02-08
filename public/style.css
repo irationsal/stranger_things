@@ -53,6 +53,7 @@ header {
     gap: 10px;
     grid-auto-rows: minmax(100px, auto);
     border-radius: 5px;
+    padding: 5px;
 }
 
 a > h3 {
@@ -147,7 +148,9 @@ a > p {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     background-color: var(--boxestwo);
+    border-radius: 5px;
     margin: 2rem;
+    padding: 10px;
 }
 
 .sent-messages {
