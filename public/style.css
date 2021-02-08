@@ -201,6 +201,10 @@ a > p {
     padding: 10px;
 }
 
+.search > label {
+    color: var(--text)
+}
+
 .logged-in {
     display: flex;
     justify-content: right;
