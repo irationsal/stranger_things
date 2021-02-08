@@ -37,7 +37,7 @@ header {
 }
 
 .post-section {
-    background-color: var(--boxestwo);
+    background-color: var(--boxes);
     margin-top: 2rem;
     border-radius: 5px;
 }
@@ -79,7 +79,8 @@ a > h3 {
 
 .post {
     border-radius: 5px;
-    background-color: var(--boxes);
+    background-color: var(--boxestwo);
+    padding: 10px;
 }
 
 .register {
@@ -147,7 +148,7 @@ a > p {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    background-color: var(--boxestwo);
+    background-color: var(--boxes);
     border-radius: 5px;
     margin: 2rem;
     padding: 10px;
@@ -212,9 +213,11 @@ a > p {
 }
 
 .message {
-    background-color: var(--boxes);
+    background-color: var(--boxestwo);
     border-radius: 5px;
     margin: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
 }
 
 .message > p {
